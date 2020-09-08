@@ -1,5 +1,6 @@
 package com.lambdaschool.orders.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.http.ResponseEntity;
 
 import javax.persistence.*;
@@ -13,6 +14,8 @@ public class Customer
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long custcode;
+
+    @Column
     private String custname;
     private String custcity;
     private String workingarea;
@@ -26,8 +29,10 @@ public class Customer
 
 
     @ManyToOne
-    @JoinColumn(agentcode)
-    private Entity<Agent> agent = new ArrayList<>();
+    @JsonIgnoreProperties(value = "customers")
+    @JoinColumn(name = "agentcode", nullable = false)
+    private Agent agent;
+
 
     public Customer(
         String custname,
