@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import javax.persistence.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "customers")
@@ -32,6 +33,10 @@ public class Customer
     @JsonIgnoreProperties(value = "customers")
     @JoinColumn(name = "agentcode", nullable = false)
     private Agent agent;
+
+    @OneToMany(mappedBy = "customers", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties(value = "customers")
+    private List<Order> orders = new ArrayList<>();
 
 
     public Customer(
